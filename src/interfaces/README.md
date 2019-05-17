@@ -27,7 +27,7 @@ In Database terms, interface reprents the column's value.
 | Readonly         | If the value is editable when the interface is rendered. This makes the inteface readonly and the value always will be defined in **Default** option. |
 | Unique           | Forces the value to be unique in the table for respective column.                                                                                     |
 | Hidden On Detail | Hides the interface from the item page while creating or editing an item.                                                                             |
-| Hidden On Browse | ??                                                                                                                                                    |
+| Hidden On Browse | Hides the field value from the listing page of items.                                                                                                 |
 | <br>**Relation** |                                                                                                                                                       |
 | Relation         | Defines the relation with other collections.                                                                                                          |
 | <br>**Options**  |                                                                                                                                                       |
@@ -58,7 +58,9 @@ The following props are derived from the Settings configuration.
 | fields   | `Object`  |         | Contains the list of other columns and its interface configuration from the same collection. |
 | values   | `Object`  |         | Contains the values of other columns from the same collection.                               |
 
-<!-- ## 🚧 Known Issues -->
+## 🚧 Known Issues
+
+- "Hide on Browse" doesn't seems to be working!
 
 ## ⚡ Enhancements
 

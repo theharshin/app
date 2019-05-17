@@ -12,6 +12,10 @@ Checkout common interface options(passed via `props`) [here.](../README.md)
 | labelOff |         | [text-input]()                                 | Text to display when value is falsy  |
 | checkbox | `false` | [toggle]() <br> _See! How cool Directus is_ 😎 | Text to display when value is falsy  |
 
+## 🗂️ Datatypes
+
+- boolean
+
 ## 🚧 Known Issues
 
 - Need to click twice to uncheck when the default value is `true`. Happens in both `create` & `edit` mode.

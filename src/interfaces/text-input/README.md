@@ -16,11 +16,16 @@ Checkout common interface options(passed via `props`) [here.](../README.md)
 | formatValue        | `false` | [toggle]()     | Pretty output by converting the value to title case.                  |
 | width              | auto    | [dropdown]()   | Set textbox width. Available choices are "small", "medium" & "large". |
 
+## 🗂️ Datatypes
+
+- string
+- lang
+
 ## 🚧 Known Issues
 
--   `width` option not working.
--   Can not remove icon once selected. The issue is with `icon` interface though.
+- `width` option not working.
+- Can not remove icon once selected. The issue is with `icon` interface though.
 
 ## ⚡ Enhancements
 
--   Masking support may be? or a new inteface for masking?
+- Masking support may be? or a new inteface for masking?
