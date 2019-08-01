@@ -46,8 +46,11 @@ Object.defineProperties(Vue.prototype, {
 
 Vue.use(events);
 Vue.use(VTooltip, {
-  defaultDelay: 500,
-  defaultOffset: 2
+  defaultDelay: {
+    show: 500
+  },
+  defaultOffset: 2,
+  autoHide: false
 });
 Vue.use(PortalVue);
 Vue.use(VueTimeago, {
