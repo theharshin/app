@@ -238,10 +238,13 @@ router.beforeEach((to, from, next) => {
       return next();
     }
 
-    if (from.fullPath === "/") {
+    //This check prevents the default redirect query parameter which is "/collections"
+    if (from.fullPath === "/" && to.redirectedFrom === "/") {
       return next({ path: "/login" });
     }
 
+    //If user tried to open the private route and not logged in.
+    //Save the path in query as to 'redirect'
     return next({
       path: "/login",
       query: { redirect: to.fullPath }
