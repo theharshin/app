@@ -4,11 +4,9 @@
       <v-install v-if="installing" :saving="saving" @install="install" />
 
       <form v-else @submit.prevent="processForm">
-        <img class="logo" alt="" src="../assets/logo-dark.svg" />
+        <img class="logo" alt src="../assets/logo-dark.svg" />
 
-        <h1 v-if="loading">
-          {{ loggedIn ? $t("fetching_data") : $t("signing_in") }}
-        </h1>
+        <h1 v-if="loading">{{ loggedIn ? $t("fetching_data") : $t("signing_in") }}</h1>
         <h1 v-else-if="notInstalled">{{ $t("welcome") }}</h1>
         <h1 v-else>{{ resetMode ? $t("reset_password") : $t("sign_in") }}</h1>
 
@@ -383,7 +381,10 @@ export default {
         .getMe({ fields: "last_page" })
         .then(res => res.data.last_page)
         .then(lastPage => {
-          this.$router.push(lastPage || "/");
+          if (lastPage == null || lastPage == "/logout" || lastPage == "/login") {
+            lastPage = "/";
+          }
+          this.$router.push(lastPage);
         })
         .catch(error => {
           this.loading = false;

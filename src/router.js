@@ -279,12 +279,11 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
   // Prevent tracking if not logged in
-  if (to.path === "/2fa-activation" && api.loggedIn === false) {
-    return;
-  }
-
-  if ((store.state.hydrated && from.path !== "/logout") || to.path !== "/2fa-activation") {
-    store.dispatch("track", { page: to.path });
+  if (store.state.hydrated && api.loggedIn === true) {
+    const pathsToIgnore = ["/2fa-activation", "/logout", "/login"];
+    if (!pathsToIgnore.includes(to.path)) {
+      store.dispatch("track", { page: to.path });
+    }
   }
 });
 
