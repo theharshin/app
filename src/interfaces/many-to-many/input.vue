@@ -356,6 +356,11 @@ export default {
     },
 
     closeEditItem() {
+      //If addNew is true and cancel is clicked, need to remove a last added blank item.
+      if (this.addNew) {
+        this.items.pop();
+      }
+      this.addNew = false;
       this.editItem = null;
     },
 
@@ -364,6 +369,12 @@ export default {
     },
 
     async closeSelection() {
+      //When there is no change in selection and user click on done.
+      if (!this.stagedSelection) {
+        this.selectExisting = false;
+        return;
+      }
+
       const primaryKeys = this.stagedSelection || [];
 
       // Remove all the items from this.items that aren't selected anymore
@@ -378,26 +389,28 @@ export default {
       );
       const newlyAddedItems = _.difference(primaryKeys, itemPrimaryKeys);
 
-      const res = await this.$api.getItem(
-        this.relation.junction.collection_one.collection,
-        newlyAddedItems.join(","),
-        {
-          fields: "*.*.*"
-        }
-      );
+      if (newlyAddedItems.length > 0) {
+        const res = await this.$api.getItem(
+          this.relation.junction.collection_one.collection,
+          newlyAddedItems.join(","),
+          {
+            fields: "*.*.*"
+          }
+        );
 
-      const items = Array.isArray(res.data) ? res.data : [res.data];
+        const items = Array.isArray(res.data) ? res.data : [res.data];
 
-      const newJunctionRecords = items.map(nested => {
-        const tempKey = "$temp_" + shortid.generate();
+        const newJunctionRecords = items.map(nested => {
+          const tempKey = "$temp_" + shortid.generate();
 
-        return {
-          [this.junctionPrimaryKey]: tempKey,
-          [this.junctionRelatedKey]: nested
-        };
-      });
+          return {
+            [this.junctionPrimaryKey]: tempKey,
+            [this.junctionRelatedKey]: nested
+          };
+        });
 
-      this.items = [...this.items, ...newJunctionRecords];
+        this.items = [...this.items, ...newJunctionRecords];
+      }
 
       this.stagedSelection = null;
       this.selectExisting = false;
