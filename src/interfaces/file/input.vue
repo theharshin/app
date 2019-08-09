@@ -66,26 +66,28 @@
         @close="existing = false"
         @done="existing = false"
       >
-        <div class="search">
-          <v-input
-            type="search"
-            :placeholder="$t('search')"
-            class="search-input"
-            @input="onSearchInput"
-          />
+        <div class="content">
+          <div class="search">
+            <v-input
+              type="search"
+              :placeholder="$t('search')"
+              class="search-input"
+              @input="onSearchInput"
+            />
+          </div>
+          <v-items
+            class="items"
+            collection="directus_files"
+            :view-type="viewType"
+            :selection="value ? [value] : []"
+            :filters="filters"
+            :view-query="viewQuery"
+            :view-options="viewOptions"
+            @options="setViewOptions"
+            @query="setViewQuery"
+            @select="saveSelection"
+          ></v-items>
         </div>
-        <v-items
-          class="items"
-          collection="directus_files"
-          :view-type="viewType"
-          :selection="value ? [value] : []"
-          :filters="filters"
-          :view-query="viewQuery"
-          :view-options="viewOptions"
-          @options="setViewOptions"
-          @query="setViewQuery"
-          @select="saveSelection"
-        ></v-items>
       </v-modal>
     </portal>
   </div>
@@ -247,20 +249,24 @@ button {
 }
 
 .search-input {
-  border-bottom: 1px solid var(--lightest-gray);
-  & >>> input {
+  border-bottom: 2px solid var(--lightest-gray);
+  &::v-deep input {
     border-radius: 0;
     border: none;
     padding-left: var(--page-padding);
     height: var(--header-height);
 
     &::placeholder {
-      color: var(--light-gray);
+      color: var(--dark-gray);
     }
   }
 }
 
-.items {
-  height: calc(100% - var(--header-height) - 1px);
+.content {
+  &::v-deep .v-layout {
+    height: auto;
+    max-height: none;
+    overflow: hidden;
+  }
 }
 </style>

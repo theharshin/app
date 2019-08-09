@@ -44,6 +44,10 @@
         :title="$t('loading_more')"
       ></v-card>
     </div>
+
+    <div v-if="loading" class="layout-loading">
+      <v-spinner />
+    </div>
   </div>
 </template>
 
@@ -242,5 +246,9 @@ export default {
   &.loading {
     opacity: 0.5;
   }
+}
+
+.layout-loading {
+  padding: 24px 0;
 }
 </style>
