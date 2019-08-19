@@ -50,7 +50,7 @@
     />
     <div class="value">
       <v-icon v-if="icon" :name="icon" />
-      <span v-if="placeholder && !value" class="placeholder">{{ placeholder }}</span>
+      <span v-if="placeholder && value === ''" class="placeholder">{{ placeholder }}</span>
       <span class="no-wrap">{{ parsedOptions[value] }}</span>
     </div>
     <v-icon class="chevron" name="arrow_drop_down" />
