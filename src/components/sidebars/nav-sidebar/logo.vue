@@ -1,6 +1,6 @@
 <template>
   <div class="v-logo">
-    <img v-if="customLogoExists" :src="customLogoPath" :alt="projectName" />
+    <img v-if="customLogoPath" :src="customLogoPath" :alt="projectName" />
     <div v-else class="logo" :class="{ running }" @animationiteration="checkRunning" />
   </div>
 </template>
@@ -10,11 +10,17 @@ export default {
   name: "VLogo",
   data() {
     return {
-      customLogoPath: "",
       running: false
     };
   },
   computed: {
+    customLogoPath() {
+      if (this.customLogoExists) {
+        return this.$store.state.settings.values.logo.data.full_url;
+      } else {
+        return null;
+      }
+    },
     customLogoExists() {
       return Boolean(this.$store.state.settings.values.logo);
     },
@@ -30,11 +36,6 @@ export default {
       if (newVal === true) {
         this.running = true;
       }
-    }
-  },
-  created() {
-    if (this.customLogoExists) {
-      this.customLogoPath = this.$store.state.settings.values.logo.data.full_url;
     }
   },
   methods: {
