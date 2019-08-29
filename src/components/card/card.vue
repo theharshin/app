@@ -46,17 +46,22 @@
       </div>
       <div class="body" :class="{ menu: options != null }">
         <div class="main">
-          <slot name="title">
-            <component :is="titleElement" v-tooltip="title" class="title">
-              {{ title }}
-            </component>
-          </slot>
-          <!-- <slot name="subtitle"> -->
-          <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
-          <!-- </slot>
-          <slot name="content"> -->
-          <p v-if="body" class="content">{{ body }}</p>
-          <!-- </slot> -->
+          <div v-if="$slots.title" class="title">
+            <slot name="title"></slot>
+          </div>
+          <component :is="titleElement" v-else v-tooltip="title" class="title">
+            {{ title }}
+          </component>
+
+          <div v-if="$slots.subtitle" class="subtitle">
+            <slot name="subtitle"></slot>
+          </div>
+          <p v-else-if="subtitle" class="subtitle">{{ subtitle }}</p>
+
+          <div v-if="$slots.content" class="content">
+            <slot name="content"></slot>
+          </div>
+          <p v-else-if="body" class="content">{{ body }}</p>
         </div>
         <v-contextual-menu
           :disabled="disabled"

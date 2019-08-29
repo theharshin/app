@@ -23,22 +23,19 @@
 
     <div class="cards" :class="{ loading: loading }">
       <v-card
-        v-for="item in items"
+        v-for="(item, index) in items"
         :key="item.id"
         :to="item[link]"
-        :subtitle="subtitle(item)"
         :icon="emptySrc(item) ? viewOptions.icon || 'photo' : null"
         :opacity="emptySrc(item) ? 'half' : null"
         :src="src(item)"
-        :body="content(item)"
         :selected="selection.includes(item.id)"
         :selection-mode="selection.length > 0"
         @select="select(item.id)"
       >
         <template slot="title">
           <v-ext-display
-            :id="title"
-            class="title"
+            :key="`card-title-${fields[title].interface}-${index}`"
             :interface-type="fields[title].interface"
             :name="title"
             :collection="collection"
@@ -46,6 +43,30 @@
             :options="fields[title].options"
             :value="item[title]"
             :relation="fields[title].relation"
+          />
+        </template>
+        <template v-if="subtitle" slot="subtitle">
+          <v-ext-display
+            :key="`card-subtitle-${fields[subtitle].interface}-${index}`"
+            :interface-type="fields[subtitle].interface"
+            :name="subtitle"
+            :collection="collection"
+            :type="fields[subtitle].type"
+            :options="fields[subtitle].options"
+            :value="item[subtitle]"
+            :relation="fields[subtitle].relation"
+          />
+        </template>
+        <template v-if="content" slot="content">
+          <v-ext-display
+            :key="`card-content-${fields[content].interface}-${index}`"
+            :interface-type="fields[content].interface"
+            :name="content"
+            :collection="collection"
+            :type="fields[content].type"
+            :options="fields[content].options"
+            :value="item[content]"
+            :relation="fields[content].relation"
           />
         </template>
       </v-card>
@@ -73,6 +94,12 @@ export default {
   computed: {
     title() {
       return this.viewOptions.title || this.primaryKeyField;
+    },
+    subtitle() {
+      return this.viewOptions.subtitle;
+    },
+    content() {
+      return this.viewOptions.content;
     },
     sortableFields() {
       return _.pickBy(this.fields, field => field.datatype);
@@ -109,15 +136,6 @@ export default {
     }
   },
   methods: {
-    subtitle(item) {
-      const subtitleField = this.viewOptions.subtitle || null;
-
-      if (subtitleField) {
-        return item[subtitleField] ? String(item[subtitleField]) : "--";
-      }
-
-      return null;
-    },
     src(item) {
       const srcField = this.viewOptions.src || null;
 
@@ -142,15 +160,6 @@ export default {
         }
 
         return item[srcField] || null;
-      }
-
-      return null;
-    },
-    content(item) {
-      const contentField = this.viewOptions.content || null;
-
-      if (contentField) {
-        return item[contentField] || null;
       }
 
       return null;
