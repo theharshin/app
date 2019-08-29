@@ -26,7 +26,6 @@
         v-for="item in items"
         :key="item.id"
         :to="item[link]"
-        :title="title(item)"
         :subtitle="subtitle(item)"
         :icon="emptySrc(item) ? viewOptions.icon || 'photo' : null"
         :opacity="emptySrc(item) ? 'half' : null"
@@ -35,7 +34,21 @@
         :selected="selection.includes(item.id)"
         :selection-mode="selection.length > 0"
         @select="select(item.id)"
-      ></v-card>
+      >
+        <template slot="title">
+          <v-ext-display
+            :id="title"
+            class="title"
+            :interface-type="fields[title].interface"
+            :name="title"
+            :collection="collection"
+            :type="fields[title].type"
+            :options="fields[title].options"
+            :value="item[title]"
+            :relation="fields[title].relation"
+          />
+        </template>
+      </v-card>
       <v-card
         v-if="lazyLoading"
         color="dark-gray"
@@ -58,6 +71,9 @@ export default {
   name: "LayoutCards",
   mixins: [mixin],
   computed: {
+    title() {
+      return this.viewOptions.title || this.primaryKeyField;
+    },
     sortableFields() {
       return _.pickBy(this.fields, field => field.datatype);
     },
@@ -93,10 +109,6 @@ export default {
     }
   },
   methods: {
-    title(item) {
-      const titleField = this.viewOptions.title || this.primaryKeyField;
-      return String(item[titleField]);
-    },
     subtitle(item) {
       const subtitleField = this.viewOptions.subtitle || null;
 
