@@ -4,7 +4,7 @@
       <v-install v-if="installing" :saving="saving" @install="install" />
 
       <form v-else @submit.prevent="processForm">
-        <img class="logo" alt src="../assets/logo-dark.svg" />
+        <img class="logo" alt="" src="../assets/logo-dark.svg" />
 
         <h1 v-if="loading">{{ loggedIn ? $t("fetching_data") : $t("signing_in") }}</h1>
         <h1 v-else-if="notInstalled">{{ $t("welcome") }}</h1>
