@@ -78,24 +78,7 @@ export default {
   }
 }
 
-.error-leave-active {
-  transition: var(--slow) var(--transition-in);
-
-  > * {
-    transition: var(--slow) var(--transition-in);
-
-    &:nth-child(1) {
-      transition-delay: 100ms;
-    }
-
-    &:nth-child(2) {
-      transition-delay: 50ms;
-    }
-  }
-}
-
-.error-enter,
-.error-leave-to {
+.error-enter {
   > * {
     opacity: 0;
     transform: translateY(15px);
