@@ -4,7 +4,7 @@
       <v-install v-if="installing" :saving="saving" @install="install" />
 
       <form v-else @submit.prevent="processForm">
-        <img class="logo" alt="" src="../assets/logo-dark.svg" />
+        <img class="logo" alt src="../assets/logo-dark.svg" />
 
         <h1 v-if="loading">{{ loggedIn ? $t("fetching_data") : $t("signing_in") }}</h1>
         <h1 v-else-if="notInstalled">{{ $t("welcome") }}</h1>
@@ -127,7 +127,7 @@
               key="error"
               class="notice"
               :class="errorType"
-              @click="error = null"
+              @click="error = SSOerror = null"
             >
               <v-icon :name="errorType" />
               {{ errorMessage }}
@@ -452,14 +452,8 @@ export default {
     },
     trySSOLogin() {
       const queryParams = new URLSearchParams(window.location.search);
-
-      /**
-       * NOTE: The only reason this was implemented this way is due to the fact that the API doesn't return
-       *   error codes yet for SSO errors. As soon as issue directus/api#126 has been fixed, we can
-       *   use the "pretty" error notice instead
-       */
       if (queryParams.get("error")) {
-        this.SSOerror = +this.$route.query.code;
+        this.SSOerror = queryParams.get("code");
 
         const uri = window.location.toString();
         if (uri.indexOf("?") > 0) {
@@ -868,7 +862,7 @@ small {
 
 .notice {
   text-align: center;
-
+  cursor: pointer;
   &.error {
     color: var(--danger);
   }
